@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import { Button } from '@repo/ui/button';
 import styles from './page.module.css';
+import Balance from './components/Balance';
 
 export default function Home() {
+    // const balance = useBalance();
     return (
         <div className={styles.page}>
             <main className={styles.main}>
@@ -19,6 +21,9 @@ export default function Home() {
                         Get started by editing <code>app/page.tsx</code>
                     </li>
                     <li>Save and see your changes instantly.</li>
+                    <li>
+                        <Balance />
+                    </li>
                 </ol>
 
                 <div className={styles.ctas}>
