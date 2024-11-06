@@ -4,7 +4,6 @@ import styles from './page.module.css';
 import Balance from './components/Balance';
 
 export default function Home() {
-    // const balance = useBalance();
     return (
         <div className={styles.page}>
             <main className={styles.main}>
