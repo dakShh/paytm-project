@@ -1,6 +1,13 @@
-import { Button } from '@repo/ui/button';
-import Balance from '../components/Balance';
+'use client';
+
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
-    return <div className={''}></div>;
+    const { data: session } = useSession();
+    return (
+        <>
+            <h1>Client Session</h1>
+            <pre>{JSON.stringify(session)}</pre>
+        </>
+    );
 }

@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
     const protectedRoutes = ['/'];
 
-    console.log('session: ', session);
+    // console.log('session: ', session);
     console.log('url: ', url);
 
     // LOGIC: if the user is logged in
@@ -34,6 +34,6 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/sign-up', '/sign-in', '/'],
+    matcher: ['/sign-up', '/sign-in'],
     // matcher: ['/sign-up', '/sign-in', '/', '/dashboard/:path*', '/verify/:path*'],
 };

@@ -20,28 +20,36 @@ import { ApiResponse } from '@repo/common/types/ApiResponse';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SignUp() {
+// auth
+import { signIn } from 'next-auth/react';
+import { signinSchema } from '@repo/schemas/signInSchema';
+
+export default function SignIn() {
     const router = useRouter();
     const { toast } = useToast();
-    const form = useForm<z.infer<typeof signupSchema>>({
-        resolver: zodResolver(signupSchema),
+    const form = useForm<z.infer<typeof signinSchema>>({
+        resolver: zodResolver(signinSchema),
         defaultValues: {
-            name: '',
             email: '',
             password: '',
         },
     });
 
-    async function onSubmit(values: z.infer<typeof signupSchema>) {
+    async function onSubmit(values: z.infer<typeof signinSchema>) {
         console.log('values: ', values);
-
+        const { email, password } = values;
         try {
-            const response = await axios.post<ApiResponse>('/api/user/', values);
-            console.log('response: ', response);
-            toast({
-                title: 'Success',
-                description: response.data.message,
+            const response = await signIn('credentials', {
+                redirect: false,
+                identifier: email,
+                password: password,
             });
+
+            console.log('response: ', response);
+            // toast({
+            //     title: 'Success',
+            //     description: response.data.message,
+            // });
             // router.replace(`/verify/${values.username}`);
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
@@ -75,25 +83,13 @@ export default function SignUp() {
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
                             control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input autoComplete="off" placeholder="Eg: daksh" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
+                                            style={{ marginBottom: '15px' }}
                                             autoComplete="off"
                                             placeholder="Eg: daksh@space.com"
                                             {...field}
@@ -123,7 +119,7 @@ export default function SignUp() {
                         />
 
                         <Button type="submit" className={cn('w-full', 'mt-10')}>
-                            signup
+                            Login
                         </Button>
                     </form>
                 </Form>

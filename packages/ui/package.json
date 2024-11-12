@@ -7,7 +7,8 @@
         "./postcss.config": "./postcss.config.mjs",
         "./tailwind.config": "./tailwind.config.ts",
         "./lib/*": "./src/lib/*.ts",
-        "./components/*": "./src/components/ui/*.tsx"
+        "./components/*": "./src/components/ui/*.tsx",
+        "./hooks/*": "./src/hooks/*.ts"
     },
     "scripts": {
         "lint": "eslint . --max-warnings 0",
@@ -28,13 +29,18 @@
         "typescript": "5.5.4"
     },
     "dependencies": {
+        "@hookform/resolvers": "^3.9.1",
+        "@radix-ui/react-label": "^2.1.0",
         "@radix-ui/react-slot": "^1.1.0",
+        "@radix-ui/react-toast": "^1.2.2",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "lucide-react": "^0.454.0",
         "react": "^18.2.0",
         "react-dom": "^18.3.1",
+        "react-hook-form": "^7.53.1",
         "tailwind-merge": "^2.5.4",
-        "tailwindcss-animate": "^1.0.7"
+        "tailwindcss-animate": "^1.0.7",
+        "zod": "^3.23.8"
     }
 }
