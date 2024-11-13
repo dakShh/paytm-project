@@ -63,6 +63,10 @@ export default function MerchantSignIn() {
         }
     }
 
+    const socialLogin = () => {
+        signIn('google');
+    };
+
     // useEffect(() => {
     //     const getAllUsers = async () => {
     //         const result = await axios.get('/api/user');
@@ -76,10 +80,16 @@ export default function MerchantSignIn() {
         <div className=" container  mx-auto  grid  place-items-center  h-screen ">
             <div className=" w-96  p-5  bg-white   rounded-lg  shadow-lg">
                 <div className="text-center mb-10">
-                    <div className="font-bold text-3xl">PayTM Bank</div>
+                    <div className="font-bold text-3xl">PayTM Merchant</div>
                     {/* <div className="text-bold text-sm">Login</div> */}
                 </div>
-                <Form {...form}>
+                <div className="w-full">
+                    <Button className="w-full" onClick={socialLogin}>
+                        {' '}
+                        Google Login{' '}
+                    </Button>
+                </div>
+                {/* <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
                             control={form.control}
@@ -122,7 +132,7 @@ export default function MerchantSignIn() {
                             Login
                         </Button>
                     </form>
-                </Form>
+                </Form> */}
             </div>
         </div>
     );
