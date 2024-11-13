@@ -12,16 +12,10 @@ export async function middleware(request: NextRequest) {
 
     console.log('session: ', session);
 
-    // LOGIC: if the user is logged in
-    // if (
-    //     session &&
-    //     (url.pathname === '/sign-in' ||
-    //         url.pathname === '/sign-up' ||
-    //         url.pathname === '/verify' ||
-    //         url.pathname === '/')
-    // ) {
-    //     return NextResponse.redirect(new URL('/dashboard', request.url));
-    // }
+    // if the user is logged in
+    if (session && url.pathname === '/sign-in') {
+        return NextResponse.redirect(new URL('/', request.url));
+    }
 
     // User not logged in
     if (!session && protectedRoutes.includes(url.pathname)) {
@@ -30,8 +24,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/'],
+    matcher: ['/', '/sign-in'],
     // matcher: ['/sign-up', '/sign-in', '/', '/dashboard/:path*', '/verify/:path*'],
 };

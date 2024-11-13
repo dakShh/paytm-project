@@ -31,7 +31,8 @@ export async function POST(request: Request) {
                 password: hashedPassword,
             },
         });
-
+        console.log('user::::::::::::::');
+        console.log(user);
         return Response.json({
             status: true,
             message: 'Account has been created successfully',

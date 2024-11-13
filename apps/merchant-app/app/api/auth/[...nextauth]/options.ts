@@ -20,6 +20,25 @@ export const authOptions: NextAuthOptions = {
         async session({ session }) {
             return session;
         },
+        async signIn({ profile }) {
+            if (!profile) return false;
+
+            const existingMerchant = await db.merchant.findUnique({ where: { email: profile?.email } });
+
+            if (!existingMerchant) {
+                const merchant = await db.merchant.create({
+                    data: {
+                        email: profile?.email as string,
+                        auth_type: 'Google',
+                        name: profile.name,
+                    },
+                });
+
+                console.log('merchant created! ', merchant);
+            }
+
+            return true; // Do different verification for other providers that don't have `email_verified`
+        },
     },
     pages: {
         signIn: '/sign-in',
