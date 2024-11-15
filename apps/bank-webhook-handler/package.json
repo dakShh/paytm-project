@@ -12,6 +12,7 @@
     "dependencies": {
         "@repo/db": "*",
         "@types/express": "^5.0.0",
-        "express": "^4.21.1"
+        "express": "^4.21.1",
+        "@repo/typescript-config": "*"
     }
 }

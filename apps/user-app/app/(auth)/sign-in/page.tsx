@@ -43,6 +43,7 @@ export default function SignIn() {
         const { email, password } = values;
         try {
             const response = await signIn('credentials', {
+                redirect: false,
                 identifier: email,
                 password: password,
             });
@@ -50,10 +51,12 @@ export default function SignIn() {
             if (response?.error) {
                 toast({
                     title: 'Signup failed',
-                    description: 'User not found',
+                    description: 'Email or Password is incorrect!',
                     variant: 'destructive',
                 });
             }
+            router.push('/');
+            console.log('response: ', response);
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
             console.log('axiosError: ', axiosError);
