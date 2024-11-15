@@ -1,13 +1,14 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import AppBarClient from '../components/AppbarClient';
 
 export default function Home() {
     const { data: session } = useSession();
     return (
         <>
-            <h1>Client Session</h1>
-            <pre>{JSON.stringify(session)}</pre>
+            <AppBarClient />
+            <h1>wallet home page</h1>
         </>
     );
 }

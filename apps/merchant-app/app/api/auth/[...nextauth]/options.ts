@@ -1,8 +1,5 @@
 import type { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-
-import bcrypt from 'bcrypt';
 
 import db from '@repo/db';
 
@@ -33,8 +30,6 @@ export const authOptions: NextAuthOptions = {
                         name: profile.name,
                     },
                 });
-
-                console.log('merchant created! ', merchant);
             }
 
             return true; // Do different verification for other providers that don't have `email_verified`

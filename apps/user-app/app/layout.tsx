@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@repo/ui/globals.css';
 import { Toaster } from '@repo/ui/components/toaster';
+import AppBarClient from '../components/AppbarClient';
 
 // Providers
 import { Providers } from '../lib/Provider';
@@ -30,7 +31,10 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
                 <NextAuthProvider>
-                    <Providers>{children}</Providers>
+                    <Providers>
+                        {/* <AppBarClient /> */}
+                        {children}
+                    </Providers>
                 </NextAuthProvider>
                 <Toaster />
             </body>

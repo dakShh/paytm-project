@@ -27,6 +27,8 @@ import { signinSchema } from '@repo/schemas/signInSchema';
 export default function SignIn() {
     const router = useRouter();
     const { toast } = useToast();
+
+    // form
     const form = useForm<z.infer<typeof signinSchema>>({
         resolver: zodResolver(signinSchema),
         defaultValues: {
@@ -35,22 +37,23 @@ export default function SignIn() {
         },
     });
 
+    // logic after submitting the form
     async function onSubmit(values: z.infer<typeof signinSchema>) {
         console.log('values: ', values);
         const { email, password } = values;
         try {
             const response = await signIn('credentials', {
-                redirect: false,
                 identifier: email,
                 password: password,
             });
 
-            console.log('response: ', response);
-            // toast({
-            //     title: 'Success',
-            //     description: response.data.message,
-            // });
-            // router.replace(`/verify/${values.username}`);
+            if (response?.error) {
+                toast({
+                    title: 'Signup failed',
+                    description: 'User not found',
+                    variant: 'destructive',
+                });
+            }
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
             console.log('axiosError: ', axiosError);
@@ -62,15 +65,6 @@ export default function SignIn() {
             });
         }
     }
-
-    // useEffect(() => {
-    //     const getAllUsers = async () => {
-    //         const result = await axios.get('/api/user');
-    //         console.log('result: ', result.data);
-    //     };
-
-    //     getAllUsers();
-    // }, []);
 
     return (
         <div className=" container  mx-auto  grid  place-items-center  h-screen ">

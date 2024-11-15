@@ -18,13 +18,16 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials: any): Promise<any> {
+                console.log('credentials: ', credentials);
+
                 try {
                     const existingUser = (await db.user.findFirst({
                         where: { email: credentials?.identifier },
                     })) as User;
 
                     if (!existingUser) {
-                        throw new Error('Account not found! :(');
+                        console.log('No existing user');
+                        return null;
                     }
                     const isPasswordCorrect = await bcrypt.compare(
                         credentials?.password,
@@ -37,6 +40,7 @@ export const authOptions: NextAuthOptions = {
 
                     return null;
                 } catch (error) {
+                    console.log('error: ', error);
                     return null;
                 }
             },
