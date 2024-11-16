@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
     const protectedRoutes = ['/', '/dashboard'];
     const authRoutes = ['/sign-in', '/sign-up'];
-    console.log('session: ', session);
+
     // User logged in
     if (session && authRoutes.includes(url.pathname)) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/sign-in', request.url));
     }
 
+    // Nothing at "/" so pushing to -> /dashboard
     if (url.pathname == '/') return NextResponse.redirect(new URL('/dashboard', request.url));
     return NextResponse.next();
 }

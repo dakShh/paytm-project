@@ -55,8 +55,7 @@ export default function SignIn() {
                     variant: 'destructive',
                 });
             }
-            router.push('/');
-            console.log('response: ', response);
+            router.push('/dashboard');
         } catch (error) {
             const axiosError = error as AxiosError<ApiResponse>;
             console.log('axiosError: ', axiosError);

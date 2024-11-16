@@ -1,3 +1,10 @@
+import AppBarClient from '../../../components/AppbarClient';
+
 export default function Transfer() {
-    return <>transfer</>;
+    return (
+        <div>
+            <AppBarClient />
+            transfer
+        </div>
+    );
 }
