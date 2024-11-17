@@ -1,8 +1,15 @@
 import express from 'express';
 import db from '@repo/db';
+
 const app = express();
 
 app.use(express.json());
+
+app.get('/axisBank', async (req, res) => {
+    res.json({
+        message: 'hello',
+    });
+});
 
 app.post('/hdfcWebhook', async (req, res) => {
     console.log('req: ', req);
@@ -20,31 +27,30 @@ app.post('/hdfcWebhook', async (req, res) => {
     };
 
     try {
-        await db.$transaction([
-            db.balance.updateMany({
-                where: {
-                    userId: Number(paymentInformation.userId),
-                },
-                data: {
-                    amount: {
-                        // You can also get this from your DB
-                        increment: Number(paymentInformation.amount),
-                    },
-                },
-            }),
-            db.onRampTransaction.updateMany({
-                where: {
-                    token: paymentInformation.token,
-                },
-                data: {
-                    status: 'Success',
-                },
-            }),
-        ]);
-
-        res.json({
-            message: 'Captured',
-        });
+        // await db.$transaction([
+        //     db.balance.updateMany({
+        //         where: {
+        //             userId: Number(paymentInformation.userId),
+        //         },
+        //         data: {
+        //             amount: {
+        //                 // You can also get this from your DB
+        //                 increment: Number(paymentInformation.amount),
+        //             },
+        //         },
+        //     }),
+        //     db.onRampTransaction.updateMany({
+        //         where: {
+        //             token: paymentInformation.token,
+        //         },
+        //         data: {
+        //             status: 'Success',
+        //         },
+        //     }),
+        // ]);
+        // res.json({
+        //     message: 'Captured',
+        // });
     } catch (e) {
         console.error(e);
         res.status(411).json({

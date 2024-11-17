@@ -14,7 +14,7 @@ interface ITransactionProps {
     }[];
 }
 export default function GetAllTransactionsCard({ transactions }: ITransactionProps) {
-    console.log('GetAllTransactionsCard: ', transactions);
+    // console.log('GetAllTransactionsCard: ', transactions);
 
     if (!transactions.length) {
         return (
@@ -61,7 +61,15 @@ export default function GetAllTransactionsCard({ transactions }: ITransactionPro
                                     {trnx.provider} ~ {trnx?.status || ''}
                                 </div>
                                 <div className={cn('text-xs text-muted-foreground pr-10')}>
-                                    {trnx?.startTime.toString() || ''}
+                                    {/* {(new Date(dateString), 'MMMM dd, yyyy')} */}
+                                    {trnx?.startTime?.toLocaleString('default', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: true, // Set to false if you want a 24-hour format
+                                    }) || ''}
                                 </div>
                             </div>
 

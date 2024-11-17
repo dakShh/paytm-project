@@ -1,18 +1,27 @@
 {
     "name": "bank-webhook-handler",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "index.ts",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "node --loader ts-node/esm src/index.ts"
     },
+    "type": "module",
     "keywords": [],
     "author": "",
     "license": "ISC",
     "description": "",
     "dependencies": {
         "@repo/db": "*",
-        "@types/express": "^5.0.0",
+        "@repo/typescript-config": "*",
         "express": "^4.21.1",
-        "@repo/typescript-config": "*"
+        "@repo/eslint-config": "*"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.0",
+        "@typescript-eslint/eslint-plugin": "^8.13.0",
+        "@typescript-eslint/parser": "^8.13.0",
+        "@types/node": "^22.9.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
     }
 }

@@ -49,7 +49,7 @@ async function getAllTransactions() {
 export default async function Transfer() {
     const { amount, locked } = await getBalance();
     const transactions = await getAllTransactions();
-    console.log('transactions: ', transactions);
+
     return (
         <div>
             <AppBarClient />

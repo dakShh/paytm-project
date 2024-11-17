@@ -33,9 +33,9 @@ export default function AddMoneyCard() {
     async function onSubmit(values: z.infer<typeof addMoneySchema>) {
         const provider = values?.provider;
         const amount = values?.amount;
+
         try {
             const response = await createOnRampTransaction(provider, amount);
-
             if (!response?.status) {
                 toast({
                     title: 'Transaction failed',
@@ -43,10 +43,9 @@ export default function AddMoneyCard() {
                     variant: 'destructive',
                 });
             }
-
             toast({ title: 'Transaction Complete! :)' });
-
             router.refresh();
+            form.reset();
         } catch (error) {
             console.log('error hai bc', error);
             toast({
@@ -71,7 +70,7 @@ export default function AddMoneyCard() {
                             control={form.control}
                             name="amount"
                             render={({ field }) => (
-                                <FormItem className="mb-5">
+                                <FormItem className="">
                                     <FormLabel>Amount</FormLabel>
                                     <FormControl>
                                         <Input
@@ -91,7 +90,7 @@ export default function AddMoneyCard() {
                             control={form.control}
                             name="provider"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="mt-6">
                                     <FormLabel>Select bank</FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>

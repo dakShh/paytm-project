@@ -1,5 +1,3 @@
-export * from '@prisma/client';
-// export { PrismaClient } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 
 const prismaClientSingleton = () => {
@@ -10,7 +8,8 @@ declare const globalThis: {
     prismaGlobal: ReturnType<typeof prismaClientSingleton>;
 } & typeof global;
 
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+// const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+const prisma: PrismaClient = globalThis.prismaGlobal ?? prismaClientSingleton();
 
 export default prisma;
 
