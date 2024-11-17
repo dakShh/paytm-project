@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '@repo/ui/components/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/card';
 import { Input } from '@repo/ui/components/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/components/select';
 
@@ -20,29 +13,50 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Button } from '@repo/ui/components/button';
 import { cn } from '@repo/ui/lib/utils';
 
+import { useRouter } from 'next/navigation';
+import { useToast } from '@repo/ui/hooks/use-toast';
+import { ApiResponse } from '@repo/common/types/ApiResponse';
+import { createOnRampTransaction } from '../lib/actions/createOnRampTranx';
+
 export default function AddMoneyCard() {
+    const router = useRouter();
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof addMoneySchema>>({
         resolver: zodResolver(addMoneySchema),
         defaultValues: {
-            amount: undefined,
-            bank_provider: '',
+            amount: 0,
+            provider: '',
         },
     });
 
     async function onSubmit(values: z.infer<typeof addMoneySchema>) {
-        console.log('values: ', values);
+        const provider = values?.provider;
+        const amount = values?.amount;
+        try {
+            const response = await createOnRampTransaction(provider, amount);
+
+            if (!response?.status) {
+                toast({
+                    title: 'Transaction failed',
+                    description: response?.message || '',
+                    variant: 'destructive',
+                });
+            }
+
+            toast({ title: 'Transaction Complete! :)' });
+
+            router.refresh();
+        } catch (error) {
+            console.log('error hai bc', error);
+            toast({
+                title: 'Transaction failed',
+                variant: 'destructive',
+            });
+        }
     }
 
-    const SUPPORTED_BANKS = [
-        {
-            name: 'HDFC Bank',
-            redirectUrl: 'https://netbanking.hdfcbank.com',
-        },
-        {
-            name: 'Axis Bank',
-            redirectUrl: 'https://www.axisbank.com/',
-        },
-    ];
+    const SUPPORTED_BANKS = [{ name: 'HDFC Bank' }, { name: 'Axis Bank' }];
 
     return (
         <Card>
@@ -57,14 +71,16 @@ export default function AddMoneyCard() {
                             control={form.control}
                             name="amount"
                             render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                <FormItem className="mb-5">
+                                    <FormLabel>Amount</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
                                             autoComplete="off"
-                                            type="amount"
-                                            placeholder="99999"
+                                            type="number"
+                                            placeholder="$ 99999"
+                                            value={field?.value}
+                                            onChange={(e) => field.onChange(Number(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -73,19 +89,23 @@ export default function AddMoneyCard() {
                         />
                         <FormField
                             control={form.control}
-                            name="bank_provider"
+                            name="provider"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Select bank</FormLabel>
                                     <FormControl>
-                                        <Select>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a verified email to display" />
+                                                <SelectValue placeholder="Select a bank" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                                <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                                <SelectItem value="m@support.com">m@support.com</SelectItem>
+                                                {SUPPORTED_BANKS?.map((bank, index) => {
+                                                    return (
+                                                        <SelectItem key={index} value={bank.name}>
+                                                            {bank.name}
+                                                        </SelectItem>
+                                                    );
+                                                })}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -93,7 +113,7 @@ export default function AddMoneyCard() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className={cn('flex', 'mt-10 mx-auto', 'w-full')}>
+                        <Button type="submit" className={cn('flex', 'mt-8 mx-auto', 'w-full')}>
                             Add Money
                         </Button>
                     </form>

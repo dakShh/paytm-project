@@ -18,15 +18,12 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials: any): Promise<any> {
-                console.log('credentials: ', credentials);
-
                 try {
                     const existingUser = (await db.user.findFirst({
                         where: { email: credentials?.identifier },
                     })) as User;
 
                     if (!existingUser) {
-                        console.log('No existing user');
                         return null;
                     }
                     const isPasswordCorrect = await bcrypt.compare(
@@ -47,12 +44,14 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token }) {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = Number(user?.id);
+            }
             return token;
         },
         async session({ session, token }) {
             if (token) {
-                console.log('token from session: ', token);
                 session.user.id = token.id;
             }
             return session;
