@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
 import { cn } from '@repo/ui/lib/utils';
 import { PackageOpen } from 'lucide-react';
+import Link from 'next/link';
 
 interface ITransactionProps {
     transactions: {
@@ -14,8 +15,6 @@ interface ITransactionProps {
     }[];
 }
 export default function GetAllTransactionsCard({ transactions }: ITransactionProps) {
-    // console.log('GetAllTransactionsCard: ', transactions);
-
     if (!transactions.length) {
         return (
             <Card>
@@ -61,15 +60,15 @@ export default function GetAllTransactionsCard({ transactions }: ITransactionPro
                                     {trnx.provider} ~ {trnx?.status || ''}
                                 </div>
                                 <div className={cn('text-xs text-muted-foreground pr-10')}>
-                                    {/* {(new Date(dateString), 'MMMM dd, yyyy')} */}
-                                    {trnx?.startTime?.toLocaleString('default', {
+                                    {trnx?.startTime?.toLocaleString('en-US', {
                                         year: 'numeric',
-                                        month: 'long',
+                                        month: '2-digit',
                                         day: '2-digit',
                                         hour: '2-digit',
                                         minute: '2-digit',
-                                        hour12: true, // Set to false if you want a 24-hour format
-                                    }) || ''}
+                                        second: '2-digit',
+                                        hour12: true, // Use false for 24-hour format
+                                    })}
                                 </div>
                             </div>
 
@@ -77,6 +76,17 @@ export default function GetAllTransactionsCard({ transactions }: ITransactionPro
                         </div>
                     );
                 })}
+                <div className={cn('flex justify-end w-full', 'mt-6')}>
+                    <div
+                        className={cn(
+                            'border border-primary',
+                            'px-5 py-2 rounded-md',
+                            'cursor-pointer hover:bg-primary/90 hover:text-white'
+                        )}
+                    >
+                        <Link href="/transaction">Show all transactions</Link>
+                    </div>
+                </div>
             </CardContent>
         </Card>
     );
