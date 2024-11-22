@@ -4,7 +4,7 @@ import db from '@repo/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../app/api/auth/[...nextauth]/options';
 
-interface IonRampTransactionResponse {
+interface IOnRampTransactionResponse {
     status: boolean;
     message?: string;
     error?: string;
@@ -13,7 +13,7 @@ interface IonRampTransactionResponse {
 export async function createOnRampTransaction(
     provider: string,
     amount: number
-): Promise<IonRampTransactionResponse> {
+): Promise<IOnRampTransactionResponse> {
     const session = await getServerSession(authOptions);
     if (!session) {
         return {

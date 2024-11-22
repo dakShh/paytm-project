@@ -1,3 +1,3 @@
-import { OnRampTransaction } from '@prisma/client';
+import { OnRampTransaction, Balance } from '@prisma/client';
 
-export type { OnRampTransaction };
+export type { OnRampTransaction, Balance };
