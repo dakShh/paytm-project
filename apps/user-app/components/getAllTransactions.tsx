@@ -43,39 +43,40 @@ export default function GetAllTransactionsCard({ transactions }: ITransactionPro
                 <CardTitle>Recent Transactions</CardTitle>
             </CardHeader>
             <CardContent>
-                {transactions?.map((trnx, index) => {
-                    return (
-                        <div
-                            key={index}
-                            className={cn(
-                                'flex justify-between',
-                                'px-4 py-2',
-                                'rounded-sm',
-                                'bg-neutral-50 border-b',
-                                'mb-2'
-                            )}
-                        >
-                            <div className={cn('flex flex-col')}>
-                                <div>
-                                    {trnx.provider} ~ {trnx?.status || ''}
+                <div className={cn('flex flex-col space-y-2')}>
+                    {transactions?.map((trnx, index) => {
+                        return (
+                            <div
+                                key={index}
+                                className={cn(
+                                    'flex justify-between',
+                                    'px-4 py-2',
+                                    'rounded-sm',
+                                    'bg-neutral-50 border-b'
+                                )}
+                            >
+                                <div className={cn('flex flex-col')}>
+                                    <div>
+                                        {trnx.provider} ~ {trnx?.status || ''}
+                                    </div>
+                                    <div className={cn('text-xs text-muted-foreground pr-10')}>
+                                        {trnx?.startTime?.toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit',
+                                            hour12: true, // Use false for 24-hour format
+                                        })}
+                                    </div>
                                 </div>
-                                <div className={cn('text-xs text-muted-foreground pr-10')}>
-                                    {trnx?.startTime?.toLocaleString('en-US', {
-                                        year: 'numeric',
-                                        month: '2-digit',
-                                        day: '2-digit',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        second: '2-digit',
-                                        hour12: true, // Use false for 24-hour format
-                                    })}
-                                </div>
-                            </div>
 
-                            <div>$ {trnx.amount / 100}</div>
-                        </div>
-                    );
-                })}
+                                <div>$ {trnx.amount / 100}</div>
+                            </div>
+                        );
+                    })}
+                </div>
                 <div className={cn('flex justify-end w-full', 'mt-6')}>
                     <div
                         className={cn(
