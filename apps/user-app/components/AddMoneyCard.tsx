@@ -15,7 +15,6 @@ import { cn } from '@repo/ui/lib/utils';
 
 import { useRouter } from 'next/navigation';
 import { useToast } from '@repo/ui/hooks/use-toast';
-import { ApiResponse } from '@repo/common/types/ApiResponse';
 import { createOnRampTransaction } from '../lib/actions/createOnRampTranx';
 
 export default function AddMoneyCard() {

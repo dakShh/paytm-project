@@ -10,17 +10,29 @@ import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/ca
 import { PackageOpen } from 'lucide-react';
 
 import { Paginator } from '../../../components/Paginator';
+import { OnRampTransaction } from '@repo/db/types';
+import { Meta } from '@repo/common/types/ApiResponse';
 
-interface TransactionProps {
-    searchParams: { [key: string]: string | undefined };
+interface ITransaction {
+    searchParams: {
+        page: string | undefined;
+        pageSize: string | undefined;
+    };
 }
 
-export default async function Transaction({ searchParams }: TransactionProps) {
+export default async function Transaction({ searchParams }: ITransaction) {
     const currentPage = parseInt(searchParams?.page || '1');
     const pageSize = parseInt(searchParams?.pageSize || '5');
 
     const transactions = await getAllTransactions({ page: currentPage, limit: pageSize });
-    const { data: tranx, meta } = transactions;
+
+    let tranx: OnRampTransaction[] = [];
+    let meta: Meta = { currentPage: 1, totalRecords: 0, totalPages: 1, limit: pageSize, skip: 0 };
+
+    if (transactions.status) {
+        tranx = transactions?.data;
+        meta = transactions?.meta;
+    }
 
     return (
         <div>
@@ -100,9 +112,9 @@ export default async function Transaction({ searchParams }: TransactionProps) {
                     <Paginator
                         page={currentPage}
                         pageSize={pageSize}
-                        totalCount={meta?.totalRecords as number}
+                        totalCount={meta?.totalRecords}
                         pageSizeSelectOptions={{
-                            pageSizeOptions: [2, 5, 10],
+                            pageSizeOptions: [5, 10, 15],
                             pageSizeSearchParam: 'pageSize',
                         }}
                     />

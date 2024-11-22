@@ -44,12 +44,10 @@ export default function SignUp() {
             });
             // router.replace(`/verify/${values.username}`);
         } catch (error) {
-            const axiosError = error as AxiosError<ApiResponse>;
-            console.log('axiosError: ', axiosError);
-            const errorMessage = axiosError?.response?.data.message;
+            console.log('error: ', error);
             toast({
                 title: 'Signup failed',
-                description: errorMessage,
+                // description: errorMessage,
                 variant: 'destructive',
             });
         }

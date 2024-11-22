@@ -16,7 +16,6 @@ import { useToast } from '@repo/ui/hooks/use-toast';
 import { signupSchema } from '@repo/schemas/signUpSchema';
 
 // Types
-import { ApiResponse } from '@repo/common/types/ApiResponse';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -57,12 +56,10 @@ export default function SignIn() {
             }
             router.push('/dashboard');
         } catch (error) {
-            const axiosError = error as AxiosError<ApiResponse>;
-            console.log('axiosError: ', axiosError);
-            const errorMessage = axiosError?.response?.data.message;
+            console.log('error: ', error);
             toast({
                 title: 'Signup failed',
-                description: errorMessage,
+                // description: ,
                 variant: 'destructive',
             });
         }
