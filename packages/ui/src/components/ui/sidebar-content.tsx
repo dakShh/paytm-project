@@ -11,6 +11,7 @@ import {
 
 import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
 
+import Link from 'next/link';
 // Menu items
 const items = [
     {
@@ -41,12 +42,12 @@ export default function SidebarContentMain() {
                     <SidebarGroupContent>
                         <SidebarMenu className="mt-5">
                             {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                <SidebarMenuItem key={item.title} className="">
+                                    <SidebarMenuButton asChild className="">
+                                        <Link href={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
